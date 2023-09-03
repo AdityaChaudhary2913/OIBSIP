@@ -23,13 +23,10 @@ const LoginPage = () => {
     }
   }
   return (
-    <div className='h-screen w-full bg-gradient-to-b from-[#1f2728] via-[#131618] to-[#070808]'>
-      <div className='bg-[#070808] w-full flex justify-center'>
-        <img src={logo} className='w-80' />
-      </div>
-      <form onSubmit={submitHandler} className='md:w-[50%] md:mt-5 bg-[#070808] space-y-5 text-white rounded-xl mx-auto flex flex-col items-center justify-center p-10'>
-        <p className='text-3xl md:text-5xl font-bold'>Log in to Pizza Factory</p>
-        <div className='h-[1px] w-96 bg-gray-700 my-3'></div>
+    <div className='h-screen w-full bg-gradient-to-b from-[#1f2728] via-[#131618] to-[#070808] p-10'>
+      <form onSubmit={submitHandler} className='md:w-[50%] md:mt-5 bg-[#070808] space-y-10 text-white rounded-xl mx-auto flex flex-col items-center justify-center p-10'>
+        <p className='text-3xl md:text-5xl font-bold text-center'>Log in to Pizza Factory</p>
+        <div className='h-[1px] w-[90%] bg-gray-700 my-3'></div>
         <div>
           <label htmlFor='email'>Email Id</label>
           <input 

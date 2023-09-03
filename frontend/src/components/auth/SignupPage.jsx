@@ -29,13 +29,10 @@ const SignupPage = () => {
     }
   }
   return (
-    <div className='h-screen w-full overflow-auto bg-gradient-to-b from-[#1f2728] via-[#131618] to-[#070808]'>
-      <div className='bg-[#070808] w-full flex justify-center'>
-      <img src={logo} className='w-80' />
-      </div>
-      <form onSubmit={useSubmitHandler} className='md:w-[40%] md:mt-5 bg-[#070808] space-y-3 text-white rounded-xl mx-auto flex flex-col  justify-center p-10'>
+    <div className='h-screen w-full overflow-auto bg-gradient-to-b from-[#1f2728] via-[#131618] to-[#070808] p-10'>
+      <form onSubmit={useSubmitHandler} className='md:w-[45%] md:mt-5 bg-[#070808] space-y-10 text-white rounded-xl mx-auto flex flex-col justify-center p-10'>
         <p className='md:text-4xl md:font-extrabold text-2xl text-center font-bold'>Sign up for Pizza Factory</p>
-        <div className='h-[1px] w-96 bg-gray-700 my-3'></div>
+        <div className='h-[1px] w-[90%] bg-gray-700 my-3 mx-auto'></div>
         <div className='flex space-x-3'>
           <div>
             <label htmlFor='firstName'>First Name</label>

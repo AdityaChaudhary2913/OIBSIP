@@ -14,7 +14,7 @@ const mailSender = async (email, title, body) => {
 
     //Sending mail
     let info = await transporter.sendMail({
-      from: "Full Stack LoginSignup",
+      from: "Pizza Factory",
       to: `${email}`,
       subject: `${title}`,
       html: `${body}`,
