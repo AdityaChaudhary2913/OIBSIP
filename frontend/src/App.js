@@ -8,14 +8,18 @@ import { useState } from "react";
 import AuthContext from './context/AuthContext'
 import ForgotPassword from "./components/auth/ForgotPassword";
 import UpdatePW from "./components/auth/UpdatePW";
+import AdminPanel from "./components/adminDashboard/AdminPanel";
+import CustomerPage from "./components/customer/CustomerPage";
 
 function App() {
   const [signupData, setSignupData] = useState(null);
+  const [userData, setUserData] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
+  const [token, setToken] = useState(localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null);
   return (
     <div className="App">
       <Toaster />
       <BrowserRouter>
-        <AuthContext.Provider value={{signupData, setSignupData}}>
+        <AuthContext.Provider value={{signupData, setSignupData, userData, setUserData, token, setToken}}>
           <Routes >
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignupPage />} />
@@ -23,6 +27,22 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:id" element={<UpdatePW/>} />
+            {
+              userData?.userType === "Admin" && (
+                <>
+                  <Route path="/adminPanel" element={<AdminPanel />} />
+                  <Route path="/home" element={<CustomerPage />} />
+                </>
+              )
+            }
+            {
+              userData?.userType === "Customer" && (
+                <>
+                  <Route path="/home" element={<CustomerPage />} />
+                </>
+              )
+            }
+            <Route path="*" element={<HomePage />} />
           </Routes>
         </AuthContext.Provider>
       </BrowserRouter>

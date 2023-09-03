@@ -1,20 +1,22 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import logo from '../../resources/logo.webp'
 import { Link } from 'react-router-dom';
 import { unAuthenticatedPostRequest } from '../../apiCalling/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import AuthContext from '../../context/AuthContext';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { token, setToken, userData, setUserData } = useContext(AuthContext);
   const submitHandler = async (e) => {
     e.preventDefault();
     const data = {email, password};
-    const response = await unAuthenticatedPostRequest('/auth/login', data, navigate, "login");
+    const response = await unAuthenticatedPostRequest('/auth/login', data, navigate, "login", setToken, setUserData);
     if(response){
       toast.success("Login Successful!")
     }

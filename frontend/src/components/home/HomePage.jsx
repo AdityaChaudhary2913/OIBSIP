@@ -4,15 +4,6 @@ import logo from '../../resources/logo.webp'
 
 const HomePage = () => {
   return (
-    // <div className=" min-h-screen flex items-center justify-center">
-    //   <div className="text-center">
-    //     <h1 className="text-4xl font-extrabold mb-4">Welcome to Pizza Delight</h1>
-    //     <p className="text-gray-300 text-lg mb-8">Order the most delicious pizzas in town!</p>
-    //     <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg">
-    //       Order Now
-    //     </button>
-    //   </div>
-    // </div>
     <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white min-h-screen flex items-center justify-center">
       <div className="bg-gray-500 rounded-lg shadow-lg p-8">
         <div className="text-center mb-8">
@@ -39,19 +30,6 @@ const HomePage = () => {
         </div>
       </div>
     </div>
-    // <div className="bg-gray-100 h-screen flex flex-col justify-center items-center">
-    //   <div className="bg-white rounded-lg p-8 shadow-md">
-    //     <h1 className="text-3xl font-semibold mb-4">Welcome to Pizza Factory!</h1>
-    //     <p className="text-gray-600 mb-4">
-    //       Order delicious pizzas online and have them delivered to your doorstep.
-    //     </p>
-    //     <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
-    //       Order Now
-    //     </button>
-    //   </div>
-    //   {/* <Link to='/login'>Log in</Link>
-    //   <Link to='/signup'>Sign up</Link> */}
-    // </div>
   )
 }
 

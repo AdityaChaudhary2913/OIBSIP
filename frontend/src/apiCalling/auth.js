@@ -3,13 +3,22 @@ import { toast } from "react-hot-toast"
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 
-export const unAuthenticatedPostRequest = async (route, body, navigate, text) => {
+export const unAuthenticatedPostRequest = async (route, body, navigate, text, setToken, setUserData) => {
   const toastId = toast.loading("Loading...")
   try{
     const response = await axios.post(URL+route, body)
     console.log("Authentication Done!")
     toast.dismiss(toastId)
-    text === "login" ? (navigate('/')) : (navigate('/login'))
+    if(text === "login"){
+      // setToken(response.data.token);
+      // localStorage.setItem("token", JSON.stringify(response.data.token))
+      setUserData(response.data.user);
+      localStorage.setItem("user", JSON.stringify(response.data.user))
+      navigate('/home')
+    }
+    else{
+      navigate('/login')
+    }
     return response
   } catch(err){
     console.log(err)
