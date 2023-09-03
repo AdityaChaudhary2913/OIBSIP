@@ -6,6 +6,8 @@ import { Toaster } from "react-hot-toast";
 import VerifyEmail from "./components/auth/VerifyEmail";
 import { useState } from "react";
 import AuthContext from './context/AuthContext'
+import ForgotPassword from "./components/auth/ForgotPassword";
+import UpdatePW from "./components/auth/UpdatePW";
 
 function App() {
   const [signupData, setSignupData] = useState(null);
@@ -19,6 +21,8 @@ function App() {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:id" element={<UpdatePW/>} />
           </Routes>
         </AuthContext.Provider>
       </BrowserRouter>

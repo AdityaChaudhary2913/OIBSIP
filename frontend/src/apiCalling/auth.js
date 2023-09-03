@@ -27,7 +27,35 @@ export const sendOTP = async (route, body, navigate) => {
     return response
   } catch(err){
     console.log(err)
-    console.log("Error while Authentication!")
+    console.log("Error while Sending OTP!")
+  }
+  toast.dismiss(toastId)
+}
+
+export const sendResetPasswordMail = async (route, body, navigate) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.post(URL+route, body)
+    toast.dismiss(toastId)
+    navigate('/verify-email')
+    return response
+  } catch(err){
+    console.log(err)
+    console.log("Error while Sending Mail!")
+  }
+  toast.dismiss(toastId)
+}
+
+export const resetPasswordFinal = async (route, body, navigate) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.post(URL+route, body)
+    toast.dismiss(toastId)
+    navigate('/login')
+    return response
+  } catch(err){
+    console.log(err)
+    console.log("Error while Resetting Password!")
   }
   toast.dismiss(toastId)
 }

@@ -21,8 +21,12 @@ const VerifyEmail = () => {
   }
   const submitHandler = (event) => {
     event.preventDefault();
-    setSignupData({...signupData, otp});
-    const response = unAuthenticatedPostRequest('/auth/signup', signupData, navigate, "signup");
+    const email = signupData.email;
+    const firstName = signupData.firstName;
+    const lastName = signupData.lastName;
+    const password = signupData.password;
+    const body = { email, firstName, lastName, password, otp };
+    const response = unAuthenticatedPostRequest('/auth/signup', body, navigate, "signup");
     navigate('/login')
     if(response){
       toast.success("Account Created Successful!")

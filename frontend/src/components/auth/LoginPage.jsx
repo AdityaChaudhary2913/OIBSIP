@@ -66,9 +66,14 @@ const LoginPage = () => {
         </div>
         <button type='submit' className='bg-green-500 rounded-2xl py-3 w-[30%] px-2'>Log In</button>
         <div className='h-[1px] w-96 bg-gray-700 my-3'></div>
+        <Link to="/forgot-password">
+          <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">
+            Forgot Password
+          </p>
+        </Link>
         <div className='flex flex-col justify-center items-center'>
           <p>Don't have an account?</p>
-          <Link to='/signup'><u>Sign up for Spotify</u></Link>
+          <Link to='/signup'><u>Sign up</u></Link>
         </div>
       </form>
     </div>
