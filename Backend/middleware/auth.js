@@ -15,7 +15,7 @@ exports.autht = async (req, res, next) => {
 
     //Verifing Token
     try{
-      const decoded=await jwt.verify(token, process.env.JWT_SECRET);
+      const decoded= jwt.verify(token, process.env.JWT_SECRET);
       req.user=decoded;
     } catch(err){
       return res.status(401).json({
@@ -25,6 +25,7 @@ exports.autht = async (req, res, next) => {
     }
     next();
   } catch(err){
+    console.log(err)
     return res.status(500).json({
       success:false,
       message: "Error while Authorization!"

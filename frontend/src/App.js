@@ -10,6 +10,11 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import UpdatePW from "./components/auth/UpdatePW";
 import AdminPanel from "./components/adminDashboard/AdminPanel";
 import CustomerPage from "./components/customer/CustomerPage";
+import Cheese from "./components/adminDashboard/creation/Cheese";
+import Pizza from "./components/adminDashboard/creation/Pizza";
+import Veggies from "./components/adminDashboard/creation/Veggies";
+import Base from "./components/adminDashboard/creation/Base";
+import Sauce from "./components/adminDashboard/creation/Sauce";
 
 function App() {
   const [signupData, setSignupData] = useState(null);
@@ -30,7 +35,13 @@ function App() {
             {
               userData?.userType === "Admin" && (
                 <>
-                  <Route path="/adminPanel" element={<AdminPanel />} />
+                  <Route path="/adminPanel" element={<AdminPanel />}>
+                    <Route path="/adminPanel/Cheese" element={<Cheese />} />
+                    <Route path="/adminPanel/Sauce" element={<Sauce />} />
+                    <Route path="/adminPanel/Base" element={<Base />} />
+                    <Route path="/adminPanel/Veggies" element={<Veggies />} />
+                    <Route path="/adminPanel/Pizza" element={<Pizza />} />
+                  </Route>
                   <Route path="/home" element={<CustomerPage />} />
                 </>
               )

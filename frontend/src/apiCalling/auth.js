@@ -69,3 +69,17 @@ export const resetPasswordFinal = async (route, body, navigate) => {
   toast.dismiss(toastId)
 }
 
+export const logout = (navigate, setUserData) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    setUserData(null);
+    localStorage.removeItem("user");
+    navigate('/login')
+    toast.success("Logged Out");
+  } catch(err){
+    console.log(err)
+    console.log("Error while Logging Out!")
+  }
+  toast.dismiss(toastId)
+}
+
