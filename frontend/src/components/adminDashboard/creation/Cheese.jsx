@@ -1,36 +1,62 @@
-import React, { useContext, useState } from 'react'
-import { create } from '../../../apiCalling/pizza';
+import React, { useContext, useEffect, useState } from 'react'
+import { create, fetchPizza } from '../../../apiCalling/pizza';
 import { toast } from 'react-hot-toast';
 import AuthContext from '../../../context/AuthContext';
 
 const Cheese = () => {
-  const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [cheeseData, setCheeseData] = useState([])
   const {userData} = useContext(AuthContext);
   const token = userData.token;
-  const submitHandler = async (event) => {
+  const submitHandler1 = async (event) => {
     event.preventDefault();
-    const body = {name, quantity};
+    const body = {name1, quantity, price};
+    console.log(body)
     const response = await create('/createCheese', body, token)
     if(response){
       toast.success("Cheese Created!");
     }
+    setName1("");
+    setQuantity("");
+    setPrice("")
   }
+  const submitHandler2 = async (event) => {
+    event.preventDefault();
+    const body = {name2, frequency};
+    const response = await create('/addCheese', body, token)
+    if(response){
+      toast.success("Cheese Added!");
+    }
+    setName2("");
+    setFrequency("");
+  }
+  const fetchData = async () => {
+    const response = await fetchPizza("/getAllCheese");
+    setCheeseData(response);
+  }
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   return (
     <div className='w-[90%] h-[86vh] text-white text-center rounded-xl mt-2 p-5 space-y-4 text-xl flex-col items-center justify-center bg-gray-600'>
-      <div className='flex'>
+      <div className='flex justify-evenly'>
         <div>
           <p>Create New Cheese</p>
-          <form onSubmit={submitHandler}>
+          <form onSubmit={submitHandler1}>
             <div className='flex items-center gap-3 mb-1'>
-              <label htmlFor='name'>Name:</label>
+              <label htmlFor='name1'>Name:</label>
               <input 
-                name='name'
+                name='name1'
                 type='text'
-                id='name'
+                id='name1'
                 placeholder='Name'
-                value={name}
-                onChange={(e)=>{setName(e.target.value)}}
+                value={name1}
+                onChange={(e)=>{setName1(e.target.value)}}
                 className="w-full rounded-[0.5rem] bg-slate-800 p-[12px]"
               />
             </div>
@@ -46,15 +72,65 @@ const Cheese = () => {
                 className="w-full rounded-[0.5rem] bg-slate-800 p-[12px]"
               />
             </div>
+            <div className='flex items-center gap-3 mb-2'>
+              <label htmlFor='price'>Price:</label>
+              <input 
+                name='price'
+                type='number'
+                id='price'
+                placeholder='Price'
+                value={price}
+                onChange={(e)=>{setPrice(e.target.value)}}
+                className="w-full rounded-[0.5rem] bg-slate-800 p-[12px]"
+              />
+            </div>
             <button type='submit' className='bg-green-500 rounded-2xl py-3 w-[30%] px-5'>Create</button>
           </form>
         </div>
         <div>
-
+          <p>Add Cheese</p>
+          <form onSubmit={submitHandler2}>
+            <div className='flex items-center gap-3 mb-1'>
+              <label htmlFor='name2'>Name:</label>
+              <input 
+                name='name2'
+                type='text'
+                id='name2'
+                placeholder='Name'
+                value={name2}
+                onChange={(e)=>{setName2(e.target.value)}}
+                className="w-full rounded-[0.5rem] bg-slate-800 p-[12px]"
+              />
+            </div>
+            <div className='flex items-center gap-3 mb-2'>
+              <label htmlFor='frequency'>Amount:</label>
+              <input 
+                name='frequency'
+                type='number'
+                id='frequency'
+                placeholder='Amount'
+                value={frequency}
+                onChange={(e)=>{setFrequency(e.target.value)}}
+                className="w-full rounded-[0.5rem] bg-slate-800 p-[12px]"
+              />
+            </div>
+            <button type='submit' className='bg-green-500 rounded-2xl py-3 w-[30%] px-5'>Add</button>
+          </form>
         </div>
       </div>
       <div className='h-1 bg-slate-700 rounded-full w-full'></div>
-      <div>sd</div>
+      <div className='overflow-auto'>
+        <p className='text-2xl text-yellow-300 underline mb-3'>Cheese Stock</p>
+        {
+          cheeseData.map((item) => (
+            <div key={item._id} className='flex justify-center gap-2'>
+              <p>Name: {item.name}</p>
+              <p>Price: {item.price}</p>
+              <p>Quantity: {item.quantity}</p>
+            </div>
+          ))
+        }
+      </div>
     </div>
   )
 }

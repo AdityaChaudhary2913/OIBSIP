@@ -42,7 +42,7 @@ function App() {
                     <Route path="/adminPanel/Veggies" element={<Veggies />} />
                     <Route path="/adminPanel/Pizza" element={<Pizza />} />
                   </Route>
-                  <Route path="/home" element={<CustomerPage />} />
+                  {/* <Route path="/home" element={<CustomerPage />} /> */}
                 </>
               )
             }

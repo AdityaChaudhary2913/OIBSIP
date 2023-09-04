@@ -14,7 +14,10 @@ export const unAuthenticatedPostRequest = async (route, body, navigate, text, se
       // localStorage.setItem("token", JSON.stringify(response.data.token))
       setUserData(response.data.user);
       localStorage.setItem("user", JSON.stringify(response.data.user))
-      navigate('/home')
+      if(response.data.user.userType === "Admin"){
+        navigate('/adminPanel');
+      }
+      else navigate('/home')
     }
     else{
       navigate('/login')

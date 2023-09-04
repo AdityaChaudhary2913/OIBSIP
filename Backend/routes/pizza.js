@@ -14,21 +14,21 @@ router.get("/getAllPizza", fetchAllPizza);
 //Veggies Routes
 router.post("/createVeggies", autht, isAdmin, createVeggies);
 router.get("/getAllVeggies", fetchAllVeggies);
-router.put("/addVeggies", autht, isAdmin, addVeggies);
+router.post("/addVeggies", autht, isAdmin, addVeggies);
 
 //Sauce Routes
 router.post("/createSauce", autht, isAdmin, createSauce);
 router.get("/getAllSauce", fetchAllSauce);
-router.put("/addSauce", autht, isAdmin, addSauce);
+router.post("/addSauce", autht, isAdmin, addSauce);
 
 //Base Routes
 router.post("/createBase", autht, isAdmin, createBase);
 router.get("/getAllBase", fetchAllBase);
-router.put("/addBase", autht, isAdmin, addBase);
+router.post("/addBase", autht, isAdmin, addBase);
 
 //Cheese Routes
 router.post("/createCheese", autht, isAdmin, createCheese);
 router.get("/getAllCheese", fetchAllCheese);
-router.put("/addCheese", autht, isAdmin, addCheese);
+router.post("/addCheese", autht, isAdmin, addCheese);
 
 module.exports = router;

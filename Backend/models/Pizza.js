@@ -32,5 +32,13 @@ const pizzaSchema = new mongoose.Schema({
   image: {
     type : String,
   },
+  price: {
+    type: Number,
+    required: true
+  },
+  quantity: {
+    type : Number,
+    default: 1
+  }
 });
 module.exports = mongoose.model("Pizza", pizzaSchema);

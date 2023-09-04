@@ -13,6 +13,12 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { token, setToken, userData, setUserData } = useContext(AuthContext);
+  if(userData?.userType === "Admin"){
+    navigate('/adminPanel')
+  }
+  else if(userData?.userType === "Customer"){
+    navigate('/home')
+  }
   const submitHandler = async (e) => {
     e.preventDefault();
     const data = {email, password};

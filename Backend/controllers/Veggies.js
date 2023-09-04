@@ -2,16 +2,17 @@ const Veggies = require("../models/Veggies");
 
 exports.createVeggies = async (req, res) => {
   try{
-    const { name, quantity } = req.body;
-    if(!name || !quantity){
+    const { name1, quantity, price } = req.body;
+    if(!name1 || !quantity || !price){
       return res.status(400).json({
         success:false,
         message:"Please provide name of the Veggie"
       });
     }
     const veggieDetail = await Veggies.create({
-      name:name,
-      quantity:quantity
+      name:name1,
+      quantity:quantity,
+      price:price
     })
     return res.status(201).json({
       success:true,
@@ -29,15 +30,15 @@ exports.createVeggies = async (req, res) => {
 
 exports.addVeggies = async (req, res) => {
   try{
-    const { name, frequency } = req.body;
-    if(!name || !frequency){
+    const { name2, frequency } = req.body;
+    if(!name2 || !frequency){
       return res.status(400).json({
         success:false,
         message:"Please provide all the details"
       });
     }
     const VeggiesDetails = await Veggies.findOneAndUpdate(
-      { name: name },
+      { name: name2 },
       { $inc: { quantity: frequency } }
     );
     return res.status(201).json({
@@ -55,7 +56,7 @@ exports.addVeggies = async (req, res) => {
 
 exports.fetchAllVeggies = async (req, res) => {
   try{
-    const details=await Veggies.find({}, {name:true, quantity:true});
+    const details=await Veggies.find({}, {name:true, quantity:true, price:true});
     return res.status(200).json({
       success:true,
       message:"All Veggies fetched successfully",

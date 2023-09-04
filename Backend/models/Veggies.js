@@ -8,7 +8,11 @@ const veggiesSchema = new mongoose.Schema({
   },
   quantity: {
     type : Number,
-    default: 0
+    default: 1
+  },
+  price: {
+    type: Number,
+    required: true
   }
 });
 module.exports = mongoose.model("Veggies", veggiesSchema);

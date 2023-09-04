@@ -20,3 +20,17 @@ export const create = async (route, body, token) => {
   }
   toast.dismiss(toastId)
 }
+
+export const fetchPizza = async (route) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.get(URL+route)
+    toast.dismiss(toastId)
+    const body = response.data.data;
+    return body
+  } catch(err){
+    console.log(err)
+    console.log("Error while fetching!")
+  }
+  toast.dismiss(toastId)
+}

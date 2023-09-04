@@ -54,7 +54,7 @@ exports.isCustomer = async (req, res, next) => {
 //isAdmin
 exports.isAdmin = async (req, res, next) => {
   try{
-    if(req.user.id !== "64f40bcea75651b6d237ad94"){
+    if(req.user.id !== "64f5c05802fdb34b3648e648"){
       return res.status(401).json({
         success:false,
         message:"You are not a Admin!"

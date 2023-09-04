@@ -9,15 +9,33 @@ const mailSender = require("./mailSender");
 exports.createPizza = async (req, res) => {
   try{
     //Fetch data
-    const { name, base, cheese, sauce, veggies, image } = req.body;
+    const { name, base, cheese, sauce, veggies, image, quantity } = req.body;
 
     //Validations
-    if(!name || !base || !cheese  || !sauce ){
+    if(!name || !base || !cheese  || !sauce || !quantity ){
       return res.status(400).json({
         success:false,
         message:"Please provide every detail for the Pizza"
       });
     }
+
+    const calculatePrice = async () => {
+      let totalPrice = 0;
+      // Fetch prices for selected ingredients
+      const basePrice = (await Base.findOne({ name: base }))?.price || 0;
+      const cheesePrice = (await Cheese.findOne({ name: cheese }))?.price || 0;
+      const saucePrice = (await Sauce.findOne({ name: sauce }))?.price || 0;
+      let veggiesPrice = 0;
+      for (const veggie of veggies) {
+        const veggiePrice = (await Veggies.findOne({ name: veggie }))?.price || 0;
+        veggiesPrice += veggiePrice;
+      }
+      // Calculate total price
+      totalPrice = basePrice + cheesePrice + saucePrice + veggiesPrice;
+      return totalPrice;
+    };
+    // Calculate the price
+    const price = await calculatePrice();
 
     //Create entry in Database
     const pizzaDetail = await Pizza.create({
@@ -26,7 +44,9 @@ exports.createPizza = async (req, res) => {
       cheese:cheese,
       sauce:sauce,
       veggies:veggies,
-      image:image
+      image:image,
+      price:price,
+      quantity:quantity
     })
 
     const baseDetails = await Base.findOneAndUpdate(
@@ -79,7 +99,7 @@ exports.createPizza = async (req, res) => {
 //GetAll tag handler function
 exports.fetchAllPizza = async (req, res) => {
   try{
-    const allPizza=await Pizza.find({}, {name:true, base:true, cheese:true, sauce:true, veggie:true, image:true});
+    const allPizza=await Pizza.find({}, {name:true, base:true, cheese:true, sauce:true, veggie:true, image:true, price:true, quantity:true});
     return res.status(200).json({
       success:true,
       message:"All Pizza fetched successfully",
