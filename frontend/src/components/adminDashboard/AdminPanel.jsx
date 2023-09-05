@@ -8,7 +8,7 @@ const AdminPanel = () => {
   return (
     <div className='h-screen w-full bg-gradient-to-b from-[#1f2728] via-[#131618] to-[#070808]'>
       <Navbar />
-      <div className='flex gap-2'>
+      <div className='flex gap-2 h-[85%]'>
         <div className='w-[10%] text-center rounded-xl mt-2 p-5 space-y-4 text-xl flex-col items-center justify-center bg-gray-600'>
           <div><Link to='/adminPanel/Cheese'>Cheese</Link></div>
           <div><Link to='/adminPanel/Sauce'>Sauce</Link></div>

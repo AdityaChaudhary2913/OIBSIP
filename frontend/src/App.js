@@ -15,6 +15,8 @@ import Pizza from "./components/adminDashboard/creation/Pizza";
 import Veggies from "./components/adminDashboard/creation/Veggies";
 import Base from "./components/adminDashboard/creation/Base";
 import Sauce from "./components/adminDashboard/creation/Sauce";
+import ProfilePage from "./components/common/ProfilePage";
+import CustomizePizza from "./components/customer/CustomizePizza";
 
 function App() {
   const [signupData, setSignupData] = useState(null);
@@ -36,13 +38,14 @@ function App() {
               userData?.userType === "Admin" && (
                 <>
                   <Route path="/adminPanel" element={<AdminPanel />}>
+                    <Route path="/adminPanel/profilePage" element={<ProfilePage />} />
                     <Route path="/adminPanel/Cheese" element={<Cheese />} />
                     <Route path="/adminPanel/Sauce" element={<Sauce />} />
                     <Route path="/adminPanel/Base" element={<Base />} />
                     <Route path="/adminPanel/Veggies" element={<Veggies />} />
                     <Route path="/adminPanel/Pizza" element={<Pizza />} />
                   </Route>
-                  {/* <Route path="/home" element={<CustomerPage />} /> */}
+                  <Route path="/home" element={<CustomerPage />} />
                 </>
               )
             }
@@ -50,6 +53,7 @@ function App() {
               userData?.userType === "Customer" && (
                 <>
                   <Route path="/home" element={<CustomerPage />} />
+                  <Route path="/customizePizza" element={<CustomizePizza />} />
                 </>
               )
             }

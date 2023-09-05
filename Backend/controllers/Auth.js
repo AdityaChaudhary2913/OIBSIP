@@ -29,7 +29,6 @@ exports.signUp = async (req, res) => {
 
     //Find most recent OTP
     const recentOtp=await Otp.find({email}).sort({createdAt:-1}).limit(1);
-    
     //Validate OTP
     if(recentOtp.length === 0){
       return res.status(400).json({
@@ -52,7 +51,7 @@ exports.signUp = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
-      userType: "Admin",
+      userType: "Customer",
       image:`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
     });
 

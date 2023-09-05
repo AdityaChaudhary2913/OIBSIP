@@ -12,9 +12,9 @@ const Navbar = () => {
   }
   return (
     <div className='bg-gray-600 text-white p-5  rounded-lg flex justify-between items-center'>
-      <div>
+      <Link to='/home'>
         <img src={logo} alt='Pizza Factory' className='w-20' />
-      </div>
+      </Link>
       <div className='text-3xl'>
         {
           userData?.userType === "Admin" ? (<p>Admin Panel</p>) : (<p>Pizza Factory</p>)
@@ -22,7 +22,7 @@ const Navbar = () => {
       </div>
       <div>
         <div className='flex justify-between gap-2'>
-          <Link to='/dashboard'>My Profile</Link>
+          <Link to='/adminPanel/profilePage'>My Profile</Link>
           <Link to='/cart' >{userData?.userType === "Admin" ? (<p>Orders</p>) : (<p>My Orders</p>)}</Link>
           <button onClick={logoutHandler} >Logout</button>
         </div>
