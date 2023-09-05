@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../common/Navbar'
 import AuthContext from '../../context/AuthContext';
-import { create, fetchPizza } from '../../apiCalling/pizza';
+import { create, fetchPrice } from '../../apiCalling/pizza';
 import { toast } from 'react-hot-toast';
 
 const CustomizePizza = () => {
@@ -12,9 +12,15 @@ const CustomizePizza = () => {
   const [veggies, setVeggies] = useState([]);
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
-  const [pizzaData, setPizzaData] = useState([])
+  const [pizzaPrice, setPizzaPrice] = useState("");
   const {userData} = useContext(AuthContext);
   const token = userData.token;
+  const priceCalci = async (event) => {
+    event.preventDefault();
+    const body = {name, base, sauce, cheese, veggies, quantity};
+    const response = await fetchPrice('/customerCreation', body)
+    setPizzaPrice(response)
+  }
   const submitHandler = async (event) => {
     event.preventDefault();
     const body = {name, base, sauce, cheese, veggies, quantity, price};
@@ -23,18 +29,13 @@ const CustomizePizza = () => {
       toast.success("Pizza Created!");
     }
   }
-  const fetchData = async () => {
-    const response = await fetchPizza("/getAllPizza");
-    setPizzaData(response);
-  }
-  useEffect(() => {
-    fetchData();
-  }, [])
 
   return (
-    <div className='text-white h-screen text-center rounded-xl space-y-4 text-xl flex-col items-center justify-center bg-gray-600'>
-      <div className='flex-col space-y-5'>
-        <p>Create New Pizza</p>
+    <div className='text-white h-screen text-center text-xl flex-col items-center justify-center bg-gray-900'>
+      <Navbar />
+      <div className='flex-col space-y-5 p-10'>
+        <p className='text-2xl'>Create Your New Pizza</p>
+              <div className='h-1 bg-slate-700 rounded-full w-full'></div>
         <form onSubmit={submitHandler}>
             <div className='flex items-center gap-3 mb-1'>
               <label htmlFor='name'>Name:</label>
@@ -97,7 +98,7 @@ const CustomizePizza = () => {
                 <option value="Spinach">Spinach</option>  
               </select>
             </div>
-              <div className='flex items-center gap-3 mb-2'>
+            <div className='flex items-center gap-3 mb-2'>
                 <label htmlFor='quantity'>Quantity:</label>
                 <input 
                   name='quantity'
@@ -108,22 +109,11 @@ const CustomizePizza = () => {
                   onChange={(e)=>{setQuantity(e.target.value)}}
                   className="w-full rounded-[0.5rem] bg-slate-800 p-[12px]"
                 />
-              </div>
-            <button type='submit' className='bg-green-500 rounded-2xl py-3 w-[30%] px-5'>Create</button>
-        </form>
-      </div>
-      <div className='h-1 bg-slate-700 rounded-full w-full'></div>
-      <div className='overflow-scroll'>
-        <p className='text-2xl text-yellow-300 underline mb-3'>Cheese Stock</p>
-        {
-          pizzaData.map((item) => (
-            <div key={item._id} className='flex justify-center gap-2'>
-              <p>Name: {item.name}</p>
-              <p>Price: {item.price}</p>
-              <p>Quantity: {item.quantity}</p>
             </div>
-          ))
-        }
+            <p>Price: {pizzaPrice}</p>
+            <button onClick={priceCalci} className='bg-green-500 rounded-2xl py-3 w-[30%] px-5'>Calculate Price</button>
+            <button type='submit' className='bg-green-500 rounded-2xl py-3 w-[30%] px-5'>Place Order</button>
+        </form>
       </div>
     </div>
   )

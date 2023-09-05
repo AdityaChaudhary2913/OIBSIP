@@ -34,3 +34,29 @@ export const fetchPizza = async (route) => {
   }
   toast.dismiss(toastId)
 }
+
+export const fetchPrice = async (route, body) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.post(URL+route, body)
+    toast.dismiss(toastId)
+    return response.data.price;
+  } catch(err){
+    console.log(err)
+    console.log("Error while fetching price!")
+  }
+  toast.dismiss(toastId)
+}
+
+export const orderPizza = async (route, body) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.post(URL+route, body)
+    toast.dismiss(toastId)
+    return response;
+  } catch(err){
+    console.log(err)
+    console.log("Error while ordering pizza!")
+  }
+  toast.dismiss(toastId)
+}

@@ -7,20 +7,20 @@ const pizzaSchema = new mongoose.Schema({
     trim: true,
   },
   base: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     trim: true,
     ref: "Base"
   },
   sauce: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     trim: true,
     ref: "Sauce"
     //enum: ["Pesto", "Creamy Alfredo", "Mayonnaise", "Robust", "Tomato"]
   },
   cheese: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     trim: true,
     ref: "Cheese"

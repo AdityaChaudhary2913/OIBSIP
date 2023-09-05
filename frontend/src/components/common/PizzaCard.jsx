@@ -1,7 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { orderPizza } from '../../apiCalling/pizza'
+import AuthContext from '../../context/AuthContext'
 
 const PizzaCard = ({data}) => {
+  const {userData} = useContext(AuthContext);
+  const order = async () => {
+    const pizzaId = `${ data._id }`;
+    const userId = userData._id;
+    const body = {pizzaId, userId}
+    const response = await orderPizza("/placeOrder", body)
+    console.log(response)
+  }
   return (
     <div className='text-white bg-slate-500 rounded-2xl p-3 flex flex-wrap w-[20%] '>
       <img src={`${data.image}`} alt='Pizza' className='mx-auto' />
@@ -14,7 +23,7 @@ const PizzaCard = ({data}) => {
       </div>
       <div className='m-auto text-center text-2xl'>
         <p>Price: {data.price}</p>
-        <Link to='/'><p className='bg-green-500 p-1 rounded-xl'>Order</p></Link>
+        <button onClick={order} ><p className='bg-green-500 px-2 rounded-xl'>Order</p></button>
       </div>
     </div>
   )
