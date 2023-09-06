@@ -1,5 +1,5 @@
 const express = require("express");
-const { createPizza, fetchAllPizza, priceCalculator, placeOrder } = require("../controllers/Pizza");
+const { createPizza, fetchAllPizza, priceCalculator, placeOrder, getMyOrders } = require("../controllers/Pizza");
 const { createVeggies, fetchAllVeggies, addVeggies } = require("../controllers/Veggies");
 const { createSauce, fetchAllSauce, addSauce } = require("../controllers/Sauce");
 const { createBase, fetchAllBase, addBase } = require("../controllers/Base");
@@ -12,6 +12,7 @@ router.post("/addPizza", autht, createPizza);
 router.get("/getAllPizza", fetchAllPizza);
 router.post("/customerCreation", priceCalculator)
 router.post("/placeOrder", placeOrder)
+router.post("/getMyOrders", getMyOrders)
 
 //Veggies Routes
 router.post("/createVeggies", autht, isAdmin, createVeggies);

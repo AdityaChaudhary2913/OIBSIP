@@ -175,3 +175,20 @@ exports.placeOrder = async (req, res) => {
     });
   }
 }
+
+exports.getMyOrders = async (req, res) => {
+  try{
+    const { userId } = req.body;
+    const order = await Order.find({user:userId}).populate("user").populate("pizza")
+    return res.status(200).json({
+      success:true,
+      message:"Order Fetched",
+      order
+    });
+  } catch(err){
+    res.status(500).json({
+      success:false,
+      message:"Error while fetching order!",
+    });
+  }
+}

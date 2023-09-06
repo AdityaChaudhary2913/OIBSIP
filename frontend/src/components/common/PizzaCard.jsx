@@ -9,7 +9,6 @@ const PizzaCard = ({data}) => {
     const userId = userData._id;
     const body = {pizzaId, userId}
     const response = await orderPizza("/placeOrder", body)
-    console.log(response)
   }
   return (
     <div className='text-white bg-slate-500 rounded-2xl p-3 flex flex-wrap w-[20%] '>

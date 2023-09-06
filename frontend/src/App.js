@@ -17,6 +17,7 @@ import Base from "./components/adminDashboard/creation/Base";
 import Sauce from "./components/adminDashboard/creation/Sauce";
 import ProfilePage from "./components/common/ProfilePage";
 import CustomizePizza from "./components/customer/CustomizePizza";
+import MyOrders from "./components/customer/MyOrders";
 
 function App() {
   const [signupData, setSignupData] = useState(null);
@@ -54,6 +55,7 @@ function App() {
                 <>
                   <Route path="/home" element={<CustomerPage />} />
                   <Route path="/customizePizza" element={<CustomizePizza />} />
+                  <Route path="/myOrders" element={<MyOrders />} />
                 </>
               )
             }

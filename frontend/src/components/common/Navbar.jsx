@@ -23,7 +23,7 @@ const Navbar = () => {
       <div>
         <div className='flex justify-between gap-2'>
           <Link to='/adminPanel/profilePage'>My Profile</Link>
-          <Link to='/cart' >{userData?.userType === "Admin" ? (<p>Orders</p>) : (<p>My Orders</p>)}</Link>
+          <Link to='/myOrders' >{userData?.userType === "Admin" ? (<p>Orders</p>) : (<p>My Orders</p>)}</Link>
           <button onClick={logoutHandler} >Logout</button>
         </div>
       </div>
