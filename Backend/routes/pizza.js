@@ -1,18 +1,20 @@
 const express = require("express");
-const { createPizza, fetchAllPizza, priceCalculator, placeOrder, getMyOrders } = require("../controllers/Pizza");
+const { createPizza, fetchAllPizza, priceCalculator, placeOrder, getMyOrders, getOrders, deleteOrder } = require("../controllers/Pizza");
 const { createVeggies, fetchAllVeggies, addVeggies } = require("../controllers/Veggies");
 const { createSauce, fetchAllSauce, addSauce } = require("../controllers/Sauce");
 const { createBase, fetchAllBase, addBase } = require("../controllers/Base");
 const { createCheese, fetchAllCheese, addCheese } = require("../controllers/Cheese");
-const { autht, isAdmin } = require("../middleware/auth");
+const { autht, isAdmin, isCustomer } = require("../middleware/auth");
 const router = express.Router();
 
 //Pizza Routes
 router.post("/addPizza", autht, createPizza);
 router.get("/getAllPizza", fetchAllPizza);
-router.post("/customerCreation", priceCalculator)
-router.post("/placeOrder", placeOrder)
-router.post("/getMyOrders", getMyOrders)
+router.post("/customerCreation", autht, isCustomer, priceCalculator)
+router.post("/placeOrder", autht, isCustomer, placeOrder)
+router.post("/getMyOrders",autht, isCustomer, getMyOrders)
+router.get("/getOrders", autht, isAdmin, getOrders)
+router.post('/deleteOrder', deleteOrder)
 
 //Veggies Routes
 router.post("/createVeggies", autht, isAdmin, createVeggies);

@@ -162,7 +162,6 @@ exports.placeOrder = async (req, res) => {
     })
     const order = await Order.findOne({user:req.body.userId, pizza:req.body.pizzaId}).populate("user").populate("pizza")
     const mailResponse = await mailSender("theaditya1985@gmail.com", "New Order", order)
-    console.log(mailResponse)
     return res.status(200).json({
       success:true,
       message:"Order Placed",
@@ -178,8 +177,8 @@ exports.placeOrder = async (req, res) => {
 
 exports.getMyOrders = async (req, res) => {
   try{
-    const { userId } = req.body;
-    const order = await Order.find({user:userId}).populate("user").populate("pizza")
+    const { id } = req.body;
+    const order = await Order.find({user:id}).populate("user").populate("pizza")
     return res.status(200).json({
       success:true,
       message:"Order Fetched",
@@ -189,6 +188,39 @@ exports.getMyOrders = async (req, res) => {
     res.status(500).json({
       success:false,
       message:"Error while fetching order!",
+    });
+  }
+}
+
+exports.getOrders = async (req, res) => {
+  try{
+    const order = await Order.find({}, {user:true, pizza:true, status:true}).populate("user").populate("pizza")
+    return res.status(200).json({
+      success:true,
+      message:"Order Fetched",
+      order
+    });
+  } catch(err){
+    res.status(500).json({
+      success:false,
+      message:"Error while fetching order!",
+    });
+  }
+}
+
+exports.deleteOrder = async (req, res) => {
+  try{
+    const {id} = req.body;
+    const order=await Order.findByIdAndDelete(id);
+    return res.status(200).json({
+      success:true,
+      message:"Order deleted",
+      order
+    });
+  } catch(err){
+    res.status(500).json({
+      success:false,
+      message:"Error while deleting order!",
     });
   }
 }

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import logo from '../../resources/logo.webp'
 import { Link } from 'react-router-dom';
 import { unAuthenticatedPostRequest } from '../../apiCalling/auth';
 import { useNavigate } from 'react-router-dom';
@@ -13,16 +12,16 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { token, setToken, userData, setUserData } = useContext(AuthContext);
-  if(userData?.userType === "Admin"){
+  if(userData?.role === "Admin"){
     navigate('/adminPanel')
   }
-  else if(userData?.userType === "Customer"){
+  else if(userData?.role === "Customer"){
     navigate('/home')
   }
   const submitHandler = async (e) => {
     e.preventDefault();
     const data = {email, password};
-    const response = await unAuthenticatedPostRequest('/auth/login', data, navigate, "login", setToken, setUserData);
+    const response = await unAuthenticatedPostRequest('/auth/login', data, navigate, "login", setToken, setUserData, token);
     if(response){
       toast.success("Login Successful!")
     }

@@ -3,12 +3,13 @@ import { orderPizza } from '../../apiCalling/pizza'
 import AuthContext from '../../context/AuthContext'
 
 const PizzaCard = ({data}) => {
-  const {userData} = useContext(AuthContext);
+  const {userData, token} = useContext(AuthContext);
   const order = async () => {
     const pizzaId = `${ data._id }`;
-    const userId = userData._id;
+    const userId = userData.id;
     const body = {pizzaId, userId}
-    const response = await orderPizza("/placeOrder", body)
+    const response = await orderPizza("/placeOrder", body, token)
+    console.log("response: ", response )
   }
   return (
     <div className='text-white bg-slate-500 rounded-2xl p-3 flex flex-wrap w-[20%] '>

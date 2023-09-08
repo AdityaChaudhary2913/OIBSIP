@@ -36,7 +36,7 @@ exports.autht = async (req, res, next) => {
 //isStudent
 exports.isCustomer = async (req, res, next) => {
   try{
-    if(req.user.userType !== "Customer"){
+    if(req.user.role !== "Customer"){
       return res.status(401).json({
         success:false,
         message:"You are not a customer!"
@@ -54,7 +54,7 @@ exports.isCustomer = async (req, res, next) => {
 //isAdmin
 exports.isAdmin = async (req, res, next) => {
   try{
-    if(req.user.id !== "64f5c05802fdb34b3648e648"){
+    if(req.user.id !== "64f5c05802fdb34b3648e648" && req.user.role != "Admin"){
       return res.status(401).json({
         success:false,
         message:"You are not a Admin!"

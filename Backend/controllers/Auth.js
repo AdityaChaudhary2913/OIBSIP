@@ -84,7 +84,7 @@ exports.login = async (req, res) => {
     }
 
     //Validate existence of Email id
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
         message: "User not found",
@@ -93,24 +93,28 @@ exports.login = async (req, res) => {
     }
 
     //Compare Password
-    const isMatch = bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(403).json({
         success: false,
         message: "please enter correct password",
       });
     }
-
     //Create a playload
     const playload = {
-      email: user.email,
       id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      image: user.image,
+      role: user.userType
     };
 
     //Generate JWT token
     const token = jwt.sign(playload, process.env.JWT_SECRET, {
       expiresIn: "2h",
     });
+    user = user.toObject()
     user.token = token;
     user.password = undefined; //Removing from object not from database
 

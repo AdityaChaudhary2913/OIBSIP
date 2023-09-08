@@ -4,7 +4,7 @@ import SignupPage from "./components/auth/SignupPage";
 import HomePage from "./components/home/HomePage";
 import { Toaster } from "react-hot-toast";
 import VerifyEmail from "./components/auth/VerifyEmail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthContext from './context/AuthContext'
 import ForgotPassword from "./components/auth/ForgotPassword";
 import UpdatePW from "./components/auth/UpdatePW";
@@ -18,11 +18,26 @@ import Sauce from "./components/adminDashboard/creation/Sauce";
 import ProfilePage from "./components/common/ProfilePage";
 import CustomizePizza from "./components/customer/CustomizePizza";
 import MyOrders from "./components/customer/MyOrders";
+import jwtDecode from 'jwt-decode';
+import ProfilePageCustomer from "./components/common/ProfilePageCustomer";
+import OrderReceived from "./components/adminDashboard/OrderReceived";
 
 function App() {
   const [signupData, setSignupData] = useState(null);
   const [userData, setUserData] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
   const [token, setToken] = useState(localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null);
+  const setData = async() => {
+    if(token){
+      const decodedToken = await jwtDecode(token)
+      if(decodedToken){
+        setUserData(decodedToken)
+      }
+    }
+  }
+  useEffect(()=> {
+    setData()
+  }, [])
+  
   return (
     <div className="App">
       <Toaster />
@@ -36,7 +51,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:id" element={<UpdatePW/>} />
             {
-              userData?.userType === "Admin" && (
+              userData?.role === "Admin" && (
                 <>
                   <Route path="/adminPanel" element={<AdminPanel />}>
                     <Route path="/adminPanel/profilePage" element={<ProfilePage />} />
@@ -45,21 +60,23 @@ function App() {
                     <Route path="/adminPanel/Base" element={<Base />} />
                     <Route path="/adminPanel/Veggies" element={<Veggies />} />
                     <Route path="/adminPanel/Pizza" element={<Pizza />} />
+                    <Route path="/adminPanel/orders" element={<OrderReceived />} />
                   </Route>
                   <Route path="/home" element={<CustomerPage />} />
                 </>
               )
             }
             {
-              userData?.userType === "Customer" && (
+              userData?.role === "Customer" && (
                 <>
                   <Route path="/home" element={<CustomerPage />} />
                   <Route path="/customizePizza" element={<CustomizePizza />} />
                   <Route path="/myOrders" element={<MyOrders />} />
+                  <Route path="/profilePage" element={<ProfilePageCustomer />} />
                 </>
               )
             }
-            <Route path="*" element={<HomePage />} />
+            {/* <Route path="*" element={<HomePage />} /> */}
           </Routes>
         </AuthContext.Provider>
       </BrowserRouter>

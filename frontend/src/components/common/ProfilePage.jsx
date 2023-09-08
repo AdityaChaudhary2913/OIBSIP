@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import AuthContext from '../../context/AuthContext'
 
 const ProfilePage = () => {
@@ -8,7 +8,7 @@ const ProfilePage = () => {
       <div>
         <img src={`${userData.image}`} alt='DisplayPicture' className='rounded-full w-40 m-auto' />
       </div>
-      <p>Account Type: {userData.userType}</p>
+      <p>Account Type: {userData.role}</p>
       <p>Name: {userData.firstName} {userData.lastName}</p>
       <p>Email: {userData.email}</p>
     </div>

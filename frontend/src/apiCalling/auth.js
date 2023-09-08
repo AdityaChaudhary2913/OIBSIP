@@ -1,19 +1,34 @@
 import axios from "axios"
 import { toast } from "react-hot-toast"
+import jwtDecode from 'jwt-decode';
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 
 export const unAuthenticatedPostRequest = async (route, body, navigate, text, setToken, setUserData) => {
   const toastId = toast.loading("Loading...")
+  const setData = async(token) => {
+    if(token){
+      const decodedToken = await jwtDecode(token)
+      if(decodedToken){
+        setUserData(decodedToken)
+      }
+    }
+  }
   try{
     const response = await axios.post(URL+route, body)
     console.log("Authentication Done!")
     toast.dismiss(toastId)
     if(text === "login"){
-      // setToken(response.data.token);
-      // localStorage.setItem("token", JSON.stringify(response.data.token))
-      setUserData(response.data.user);
-      localStorage.setItem("user", JSON.stringify(response.data.user))
+      setToken(response.data.token);
+      localStorage.setItem("token", JSON.stringify(response.data.token))
+      setData(response.data.token)
+      const data = {
+        email: response.data.user.email,
+        firstName: response.data.user.firstName,
+        lastName: response.data.user.lastName,
+        image: response.data.user.image,
+      }
+      localStorage.setItem("user", JSON.stringify(data))
       if(response.data.user.userType === "Admin"){
         navigate('/adminPanel/profilePage');
       }
@@ -72,11 +87,13 @@ export const resetPasswordFinal = async (route, body, navigate) => {
   toast.dismiss(toastId)
 }
 
-export const logout = (navigate, setUserData) => {
+export const logout = (navigate, setUserData, setToken) => {
   const toastId = toast.loading("Loading...")
   try{
     setUserData(null);
+    setToken(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     navigate('/login')
     toast.success("Logged Out");
   } catch(err){

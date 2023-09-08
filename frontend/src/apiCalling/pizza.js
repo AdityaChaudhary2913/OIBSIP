@@ -48,7 +48,41 @@ export const fetchPrice = async (route, body) => {
   toast.dismiss(toastId)
 }
 
-export const orderPizza = async (route, body) => {
+export const orderPizza = async (route, body, token) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.post(URL+route, body, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }})
+    toast.dismiss(toastId)
+    return response;
+  } catch(err){
+    console.log(err)
+    console.log("Error while ordering pizza!")
+  }
+  toast.dismiss(toastId)
+}
+
+export const fetchOrders = async (route, token) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.get(URL+route, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }})
+    toast.dismiss(toastId)
+    return response;
+  } catch(err){
+    console.log(err)
+    console.log("Error while getting pizza orders!")
+  }
+  toast.dismiss(toastId)
+}
+
+export const deleteOrder = async (route, body) => {
   const toastId = toast.loading("Loading...")
   try{
     const response = await axios.post(URL+route, body)
@@ -56,7 +90,7 @@ export const orderPizza = async (route, body) => {
     return response;
   } catch(err){
     console.log(err)
-    console.log("Error while ordering pizza!")
+    console.log("Error while deleting pizza order!")
   }
   toast.dismiss(toastId)
 }

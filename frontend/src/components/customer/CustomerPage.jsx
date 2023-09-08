@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../common/Navbar'
 import AuthContext from '../../context/AuthContext'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fetchPizza } from '../../apiCalling/pizza';
 import PizzaCard from '../common/PizzaCard';
 
