@@ -41,7 +41,8 @@ const PizzaCard = ({ data }) => {
   const pizzaId = `${data._id}`;
   const body = { pizzaId };
 
-  const order = async () => {
+  const order = async (e) => {
+    e.preventDefault();
     if (token) {
       try {
         const orderResponse = await buyCourse(body, token, userData);

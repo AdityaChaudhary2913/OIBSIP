@@ -87,10 +87,10 @@ exports.verifySignature = async (req, res) => {
           message:"Error while placing order!",
         });
       }
+      return res.status(200).json({
+        success: true,
+      })
     }
-    return res.status(200).json({
-      success: true,
-    })
   } catch(err){
     console.error('Error in verifying Payment', err);
     return res.status(500).json({

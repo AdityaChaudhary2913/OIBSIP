@@ -47,35 +47,37 @@ export async function buyCourse(body, token, userd) {
     if(!orderResponse){
       console.log('Error in capturing order!');
     }
-    console.log("Order Created!", orderResponse)
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY,
-      amount: orderResponse.data.paymentResponse.amount, 
+      amount: `${orderResponse.data.paymentResponse.amount}`, 
       currency: orderResponse.data.paymentResponse.currency,
       name: "Pizza Factory",
       description: "Test Transaction",
       "account_id": "acc_Ef7ArAsdU5t0XL",
       order_id: orderResponse.data.paymentResponse.id, 
-      handler: async function (response){
-          await verifySignature({...response, body}, token)
-      },
       prefill: {
           name: `${userd.firstName}`,
           email: `${userd.email}`,
           contact: "1234567890"
       },
-      notes: {
-          "address": "Razorpay Corporate Office"
+      handler: function (response){
+        verifySignature({...response, body}, token)
       },
-      theme: {
-          "color": "#3399cc"
-      }
     };
+    console.log(options)
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
     paymentObject.on("payment.failed", function(response){
       toast.error("OOPS!! Payment Failed")
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
     })
+    console.log("Testing");
   } catch(err){
     console.log(err)
     toast.error("Could Not make Payment!")
