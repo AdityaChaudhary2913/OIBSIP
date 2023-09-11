@@ -35,10 +35,14 @@ export const fetchPizza = async (route) => {
   toast.dismiss(toastId)
 }
 
-export const fetchPrice = async (route, body) => {
+export const fetchPrice = async (route, body, token) => {
   const toastId = toast.loading("Loading...")
   try{
-    const response = await axios.post(URL+route, body)
+    const response = await axios.post(URL+route, body, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }})
     toast.dismiss(toastId)
     return response.data.price;
   } catch(err){

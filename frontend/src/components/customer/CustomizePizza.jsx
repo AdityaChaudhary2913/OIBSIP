@@ -13,12 +13,11 @@ const CustomizePizza = () => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   const [pizzaPrice, setPizzaPrice] = useState("");
-  const {userData} = useContext(AuthContext);
-  const token = userData.token;
+  const {token} = useContext(AuthContext);
   const priceCalci = async (event) => {
     event.preventDefault();
     const body = {name, base, sauce, cheese, veggies, quantity};
-    const response = await fetchPrice('/customerCreation', body)
+    const response = await fetchPrice('/customerCreation', body, token)
     setPizzaPrice(response)
   }
   const submitHandler = async (event) => {

@@ -3,7 +3,7 @@ const jwt=require("jsonwebtoken");
 exports.autht = async (req, res, next) => {
   try{
     //Extracting token
-    const token=req.cookies.token || req.body.token || req.header("Authorization").replace("Bearer ", "");
+    const token=req.header("Authorization").replace("Bearer ", "");
 
     //Checking presence of token
     if(!token){
@@ -15,19 +15,21 @@ exports.autht = async (req, res, next) => {
 
     //Verifing Token
     try{
-      const decoded= jwt.verify(token, process.env.JWT_SECRET);
+      const decoded= await jwt.verify(token, process.env.JWT_SECRET);
       req.user=decoded;
     } catch(err){
       return res.status(401).json({
         success:false,
+        err,
         message:"Invalid Token ( Inside middleware auth ) !",
       });
     }
     next();
   } catch(err){
-    console.log(err)
+    // console.log(err)
     return res.status(500).json({
       success:false,
+      err,
       message: "Error while Authorization!"
     });
   }

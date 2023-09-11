@@ -42,6 +42,7 @@ const PizzaCard = ({ data }) => {
   const body = { pizzaId };
 
   const order = async (e) => {
+    console.log(data)
     e.preventDefault();
     if (token) {
       try {
@@ -54,7 +55,7 @@ const PizzaCard = ({ data }) => {
   };
 
   return (
-    <div className='text-white bg-slate-500 rounded-2xl p-3 flex flex-wrap w-[20%] '>
+    <div className='text-white bg-slate-500 rounded-2xl p-3 flex-col justify-center items-center w-[20%]'>
       <img src={`${data.image}`} alt='Pizza' className='mx-auto' />
       <div>
         <p>Name: {data.name}</p>

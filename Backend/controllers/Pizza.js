@@ -31,25 +31,27 @@ exports.createPizza = async (req, res) => {
         const veggiePrice = (await Veggies.findOne({ name: veggie }))?.price || 0;
         veggiesPrice += veggiePrice;
       }
-      // Calculate total price
+      // Calculate totala price
       totalPrice = basePrice + cheesePrice + saucePrice + veggiesPrice;
       return totalPrice;
     };
     // Calculate the price
     const price = await calculatePrice();
 
+    const baseD = (await Base.findOne({ name: base }));
+    const cheeseD = (await Cheese.findOne({ name: cheese }));
+    const sauceD = (await Sauce.findOne({ name: sauce }));
     //Create entry in Database
     const pizzaDetail = await Pizza.create({
       name:name,
-      base:base,
-      cheese:cheese,
-      sauce:sauce,
+      base:baseD._id,
+      cheese:cheeseD._id,
+      sauce:sauceD._id,
       veggies:veggies,
       image:image,
       price:price,
       quantity:quantity
     })
-
     const baseDetails = await Base.findOneAndUpdate(
       { name: base },
       { $inc: { quantity: -1 } }
@@ -88,8 +90,8 @@ exports.createPizza = async (req, res) => {
       message:"Pizza added successfully",
       data:pizzaDetail
     });
-
   } catch(err){
+    // console.log(err)
     res.status(500).json({
       success:false,
       message:"Error while adding Pizza!"
@@ -100,7 +102,7 @@ exports.createPizza = async (req, res) => {
 //GetAll tag handler function
 exports.fetchAllPizza = async (req, res) => {
   try{
-    const allPizza=await Pizza.find({}, {name:true, base:true, cheese:true, sauce:true, veggie:true, image:true, price:true, quantity:true});
+    const allPizza=await Pizza.find({}, {name:true, base:true, cheese:true, sauce:true, veggie:true, image:true, price:true, quantity:true}).populate("veggies");
     return res.status(200).json({
       success:true,
       message:"All Pizza fetched successfully",
@@ -124,6 +126,7 @@ exports.priceCalculator = async (req, res) => {
         message:"Please provide every detail for the Pizza"
       });
     }
+    console.log("Testing")
     const calculatePrice = async () => {
       let totalPrice = 0;
       // Fetch prices for selected ingredients
@@ -187,9 +190,9 @@ exports.getMyOrders = async (req, res) => {
   } catch(err){
     res.status(500).json({
       success:false,
-      message:"Error while fetching order!",
-    });
-  }
+      message:"Error while fetching order"
+    })
+}
 }
 
 exports.getOrders = async (req, res) => {

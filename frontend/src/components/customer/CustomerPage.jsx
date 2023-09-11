@@ -1,16 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../common/Navbar'
-import AuthContext from '../../context/AuthContext'
 import { Link } from 'react-router-dom';
 import { fetchPizza } from '../../apiCalling/pizza';
 import PizzaCard from '../common/PizzaCard';
 
 const CustomerPage = () => {
-  // const {userData} = useContext(AuthContext);
-  // const navigate = useNavigate();
-  // if(userData?.userType === "Admin"){
-  //   navigate('/adminPanel');
-  // }
   const [pizzaData, setPizzaData] = useState([])
   const fetchData = async () => {
     const response = await fetchPizza("/getAllPizza");
@@ -18,14 +12,20 @@ const CustomerPage = () => {
   }
   useEffect(() => {
     fetchData();
+    console.log(pizzaData)
   }, [])
   return (
     <div className='h-screen w-full bg-gradient-to-b from-[#1f2728] via-[#131618] to-[#070808]'>
       <Navbar />
       <p className='text-white text-center text-4xl'>Here are some available Pizza</p>
-      <div className='flex justify-evenly mb-10 mt-5'>
+      <div className='flex justify-evenly mb-10 mt-5 flex-wrap'>
         {
-          pizzaData.map((pizza)=> (
+          pizzaData === undefined && (<div className='text-white text-5xl'>
+                                      There is no available Pizza at the moment!
+                                    </div>)
+        }
+        {
+          pizzaData?.map((pizza)=> (
             <PizzaCard key={pizza._id} data={pizza} />
           ))
         }

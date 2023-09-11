@@ -10,8 +10,7 @@ const Veggies = () => {
   const [price, setPrice] = useState("");
   const [frequency, setFrequency] = useState("");
   const [veggiesData, setVeggiesData] = useState([])
-  const {userData} = useContext(AuthContext);
-  const token = userData.token;
+  const {token} = useContext(AuthContext);
   const submitHandler1 = async (event) => {
     event.preventDefault();
     const body = {name1, quantity, price};

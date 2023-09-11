@@ -1,7 +1,7 @@
 import axios from "axios"
 import { toast } from "react-hot-toast"
 
-const URL = process.env.REACT_APP_BACKEND_URL + '/payment';
+const URL = `${process.env.REACT_APP_BACKEND_URL}/payment`;
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -17,13 +17,12 @@ function loadScript(src) {
   })
 }
 
-export async function verifySignature(bodyData, token){
+export async function verifySignature(body, token){
   const toastid = toast.loading("Verifying Payment...");
   console.log("Came into frontend verify signature")
   try{
-    const response = await axios.post(URL+"/verifySignature", bodyData, {headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+    const response = await axios.post(URL+"/verifySignature", body, {headers: {
+      Authorization: `Bearer ${token}`
     }})
     toast.success("Payment Successful!")
   } catch(err){
@@ -41,8 +40,7 @@ export async function buyCourse(body, token, userd) {
       return;
     }
     const orderResponse = await axios.post(URL+"/capturePayment", body, {headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     }})
     if(!orderResponse){
       console.log('Error in capturing order!');
@@ -60,8 +58,14 @@ export async function buyCourse(body, token, userd) {
           email: `${userd.email}`,
           contact: "1234567890"
       },
-      handler: function (response){
-        verifySignature({...response, body}, token)
+      handler: function (res){
+        console.log("first")
+        sendPaymentSuccessEmail(
+					res,
+					orderResponse.data.paymentResponse.amount,
+					token
+				);
+        verifySignature({...res, body}, token)
       },
     };
     console.log(options)
@@ -70,16 +74,28 @@ export async function buyCourse(body, token, userd) {
     paymentObject.on("payment.failed", function(response){
       toast.error("OOPS!! Payment Failed")
       alert(response.error.code);
-      alert(response.error.description);
-      alert(response.error.source);
-      alert(response.error.step);
-      alert(response.error.reason);
-      alert(response.error.metadata.order_id);
-      alert(response.error.metadata.payment_id);
     })
-    console.log("Testing");
+    console.log("Payment success");
   } catch(err){
     console.log(err)
     toast.error("Could Not make Payment!")
   }
+}
+
+async function sendPaymentSuccessEmail(response, amount, token) {
+	try {
+		await axios.post(
+			URL + "/sendPaymentSuccessEmail",
+			{
+				orderId: response.razorpay_order_id,
+				paymentId: response.razorpay_payment_id,
+				amount,
+			},
+			{headers: {
+        Authorization: `Bearer ${token}`
+      }}
+		);
+	} catch (error) {
+		console.log("PAYMENT SUCCESS EMAIL ERROR....", error);
+	}
 }

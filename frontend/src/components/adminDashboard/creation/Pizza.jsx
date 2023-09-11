@@ -12,8 +12,7 @@ const Pizza = () => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   const [pizzaData, setPizzaData] = useState([])
-  const {userData} = useContext(AuthContext);
-  const token = userData.token;
+  const {token} = useContext(AuthContext);
   const submitHandler = async (event) => {
     event.preventDefault();
     const body = {name, base, sauce, cheese, veggies, quantity, price};
