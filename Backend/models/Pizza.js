@@ -9,22 +9,17 @@ const pizzaSchema = new mongoose.Schema({
   base: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    trim: true,
     ref: "Base"
   },
   sauce: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    trim: true,
     ref: "Sauce"
-    //enum: ["Pesto", "Creamy Alfredo", "Mayonnaise", "Robust", "Tomato"]
   },
   cheese: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    trim: true,
     ref: "Cheese"
-    //enum: ["Mozzarella", "Gorgonzola", "Provolone", "Parmigiano-Reggiano", "Aged Havarti"]
   },
   veggies: [{
     type: String,

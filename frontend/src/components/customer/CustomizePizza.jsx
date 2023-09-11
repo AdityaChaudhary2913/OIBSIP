@@ -23,7 +23,7 @@ const CustomizePizza = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     const body = {name, base, sauce, cheese, veggies, quantity, price};
-    const response = await create('/addPizza', body, token)
+    const response = await create('/placeOrder', body, token)
     if(response){
       toast.success("Pizza Created!");
     }

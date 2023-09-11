@@ -10,7 +10,7 @@ const mailSender = require("./mailSender");
 exports.createPizza = async (req, res) => {
   try{
     //Fetch data
-    const { name, base, cheese, sauce, veggies, image, quantity } = req.body;
+    const { name, base, cheese, sauce, veggies, quantity } = req.body;
 
     //Validations
     if(!name || !base || !cheese  || !sauce || !quantity ){
@@ -48,7 +48,7 @@ exports.createPizza = async (req, res) => {
       cheese:cheeseD._id,
       sauce:sauceD._id,
       veggies:veggies,
-      image:image,
+      image:"https://imgs.search.brave.com/P2iwCfiBAJTpApYBHRRlazxM5JyG3rsrUVypsJg0oPA/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAwLzU3Lzg0Lzkw/LzM2MF9GXzU3ODQ5/MDgyX1RaYTdxOGxJ/UktYQ2dKcXNpdTRw/MDlwbU44RmtQMklp/LmpwZw",
       price:price,
       quantity:quantity
     })
@@ -102,7 +102,7 @@ exports.createPizza = async (req, res) => {
 //GetAll tag handler function
 exports.fetchAllPizza = async (req, res) => {
   try{
-    const allPizza=await Pizza.find({}, {name:true, base:true, cheese:true, sauce:true, veggie:true, image:true, price:true, quantity:true}).populate("veggies");
+    const allPizza=await Pizza.find({}, {name:true, base:true, cheese:true, sauce:true, veggie:true, image:true, price:true, quantity:true}).populate("veggies").populate("cheese").populate("base").populate("sauce").exec();
     return res.status(200).json({
       success:true,
       message:"All Pizza fetched successfully",

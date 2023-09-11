@@ -43,6 +43,7 @@ const PizzaCard = ({ data }) => {
   const pizzaId = `${data._id}`;
   const body = { pizzaId };
   const order = async (e) => {
+    console.log(data)
     e.preventDefault();
     if (token) {
       try {
@@ -71,22 +72,24 @@ const PizzaCard = ({ data }) => {
   return (
     <div className='text-white bg-slate-500 rounded-2xl p-3 flex-col justify-center items-center w-[20%]'>
       <img src={`${data.image}`} alt='Pizza' className='mx-auto' />
-      <div>
-        <p>Name: {data.name}</p>
-        <p>Base: {data.base}</p>
-        <p>Sauce: {data.sauce}</p>
-        <p>Cheese: {data.cheese}</p>
-        <p>Veggies: {data.veggies}</p>
-      </div>
-      <div className='m-auto text-center text-2xl'>
-        <p>Price: {data.price}</p>
-        {token ? (
-          <button onClick={order}>
-            <p className='bg-green-500 px-2 rounded-xl'>Order</p>
-          </button>
-        ) : (
-          <p>Please log in to place an order.</p>
-        )}
+      <div className='flex justify-center items-center'>
+        <div>
+          <p>Name: {data.name}</p>
+          <p>Base: {data.base.name}</p>
+          <p>Sauce: {data.sauce.name}</p>
+          <p>Cheese: {data.cheese.name}</p>
+          <p>Veggies: {data.veggies}</p>
+        </div>
+        <div className='m-auto text-center text-2xl'>
+          <p>Price: {data.price}</p>
+          {token ? (
+            <button onClick={order}>
+              <p className='bg-green-500 px-2 rounded-xl'>Order</p>
+            </button>
+          ) : (
+            <p>Please log in to place an order.</p>
+            )}
+        </div>
       </div>
     </div>
   );
