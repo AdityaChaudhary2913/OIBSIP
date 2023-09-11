@@ -32,17 +32,17 @@
 // }
 
 // export default PizzaCard
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { buyCourse } from '../../apiCalling/payment';
 import AuthContext from '../../context/AuthContext';
+import {loadStripe} from '@stripe/stripe-js';
+import axios from 'axios';
 
 const PizzaCard = ({ data }) => {
   const { userData, token } = useContext(AuthContext);
   const pizzaId = `${data._id}`;
   const body = { pizzaId };
-
   const order = async (e) => {
-    console.log(data)
     e.preventDefault();
     if (token) {
       try {
@@ -53,6 +53,20 @@ const PizzaCard = ({ data }) => {
       }
     }
   };
+
+  const makePayment = async () => {
+    const stripe = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY)
+    const response = await axios.post("http://localhost:8000/payment/createPayment", data, {headers: {
+      Authorization: `Bearer ${token}`
+    }});
+    console.log(response)
+    const result = stripe.redirectToCheckout({
+      sessionId: response.data.id
+    })
+    if(result.error){
+      console.log(result.error)
+    }
+  }
 
   return (
     <div className='text-white bg-slate-500 rounded-2xl p-3 flex-col justify-center items-center w-[20%]'>
