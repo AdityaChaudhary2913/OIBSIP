@@ -32,7 +32,6 @@ const CustomerPage = () => {
       </div>
       <p className='text-white text-center text-2xl'>You can customize your Pizza according to your own needs also</p>
       <Link to='/customizePizza'><p className='text-white text-center text-lg underline'>Click Here to Create New Pizza</p></Link>
-
     </div>
   )
 }

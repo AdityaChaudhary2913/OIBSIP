@@ -159,6 +159,7 @@ exports.priceCalculator = async (req, res) => {
 
 exports.placeOrder = async (req, res) => {
   try{
+    console.log(req.body)
     const orderDetails = await Order.create({
       user:req.body.userId,
       pizza:req.body.pizzaId
@@ -180,8 +181,9 @@ exports.placeOrder = async (req, res) => {
 
 exports.getMyOrders = async (req, res) => {
   try{
-    const { id } = req.body;
+    const { id } = req.user;
     const order = await Order.find({user:id}).populate("user").populate("pizza")
+    console.log(order)
     return res.status(200).json({
       success:true,
       message:"Order Fetched",
@@ -197,11 +199,15 @@ exports.getMyOrders = async (req, res) => {
 
 exports.getOrders = async (req, res) => {
   try{
+    const {firstName, lastName, email} = req.user;
     const order = await Order.find({}, {user:true, pizza:true, status:true}).populate("user").populate("pizza")
     return res.status(200).json({
       success:true,
       message:"Order Fetched",
-      order
+      order,
+      firstName,
+      lastName,
+      email
     });
   } catch(err){
     res.status(500).json({

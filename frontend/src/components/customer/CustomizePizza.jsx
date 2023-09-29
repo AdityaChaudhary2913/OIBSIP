@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Navbar from '../common/Navbar'
 import AuthContext from '../../context/AuthContext';
-import { create, fetchPrice } from '../../apiCalling/pizza';
+import { fetchPrice, orderPizza } from '../../apiCalling/pizza';
 import { toast } from 'react-hot-toast';
 
 const CustomizePizza = () => {
@@ -23,7 +23,7 @@ const CustomizePizza = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     const body = {name, base, sauce, cheese, veggies, quantity, price};
-    const response = await create('/placeOrder', body, token)
+    const response = await orderPizza('/placeOrder', body, token)
     if(response){
       toast.success("Pizza Created!");
     }

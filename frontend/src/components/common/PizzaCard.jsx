@@ -37,17 +37,19 @@ import { buyCourse } from '../../apiCalling/payment';
 import AuthContext from '../../context/AuthContext';
 import {loadStripe} from '@stripe/stripe-js';
 import axios from 'axios';
+import { orderPizza } from '../../apiCalling/pizza';
 
 const PizzaCard = ({ data }) => {
   const { userData, token } = useContext(AuthContext);
   const pizzaId = `${data._id}`;
-  const body = { pizzaId };
+  const userId = `${userData.id}`
+  const body = { pizzaId, userId };
   const order = async (e) => {
     console.log(data)
     e.preventDefault();
     if (token) {
       try {
-        const orderResponse = await buyCourse(body, token, userData);
+        const orderResponse = await orderPizza("/placeOrder", body, token)
         console.log(orderResponse);
       } catch (error) {
         console.error('Error placing order:', error);

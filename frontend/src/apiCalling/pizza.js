@@ -69,6 +69,23 @@ export const orderPizza = async (route, body, token) => {
   toast.dismiss(toastId)
 }
 
+export const getMyOrder = async (token) => {
+  const toastId = toast.loading("Loading...")
+  try{
+    const response = await axios.get(URL+"/getMyOrders", {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }})
+    toast.dismiss(toastId)
+    return response;
+  } catch(err){
+    console.log(err)
+    console.log("Error while ordering pizza!")
+  }
+  toast.dismiss(toastId)
+}
+
 export const fetchOrders = async (route, token) => {
   const toastId = toast.loading("Loading...")
   try{

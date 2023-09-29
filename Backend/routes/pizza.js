@@ -12,7 +12,7 @@ router.post("/addPizza", autht, createPizza);
 router.get("/getAllPizza", fetchAllPizza);
 router.post("/customerCreation", autht, isCustomer, priceCalculator)
 router.post("/placeOrder", autht, isCustomer, placeOrder)
-router.post("/getMyOrders",autht, isCustomer, getMyOrders)
+router.get("/getMyOrders",autht, isCustomer, getMyOrders)
 router.get("/getOrders", autht, isAdmin, getOrders)
 router.post('/deleteOrder', deleteOrder)
 
