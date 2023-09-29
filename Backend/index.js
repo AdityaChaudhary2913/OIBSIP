@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const { connectDB } = require("./config/database");
 require("dotenv").config();
 app.use(cors({
-  origin:"http://localhost:3000",
+  origin:["http://localhost:3000", "https://oibsip-backend.onrender.com"],
   credentials:true
 }));
 connectDB();
