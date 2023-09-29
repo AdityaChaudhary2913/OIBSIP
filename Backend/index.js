@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const { connectDB } = require("./config/database");
 require("dotenv").config();
 app.use(cors({
-  origin: ["http://localhost:3000", "https://oibsip-frontend.vercel.app", "https://oibsip-frontend-oeaegaxp9-adityathejaat.vercel.app/"],
+  origin: "https://oibsip-frontend.vercel.app",
   credentials: true
 }));
 connectDB();
